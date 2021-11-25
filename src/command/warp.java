@@ -5,7 +5,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.Player;
 import cn.nukkit.level.Position;
 import cn.nukkit.utils.Config;
-import plugin.main;
+import warpplugin.main;
 
 import java.io.File;
 
