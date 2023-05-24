@@ -84,7 +84,9 @@ public class setwarp extends Command
         warps.set(warpName + ".x", pos.x);
         warps.set(warpName + ".y", pos.y);
         warps.set(warpName + ".z", pos.z);
+
         warps.save();
+        warps.reload();
 
         return false;
     }

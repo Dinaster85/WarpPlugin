@@ -52,6 +52,8 @@ public class delwarp extends Command
             // Remove the warp
             warps.remove(warpName);
             warps.save();
+            warps.reload();
+
             sender.sendMessage(text.getString("remove-warp").replace("{warp}", warpName));
         }
         // The specified warp does not exist
