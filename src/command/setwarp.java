@@ -1,99 +1,91 @@
 package command;
 
+import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
-import cn.nukkit.Player;
 import cn.nukkit.level.Position;
 import cn.nukkit.utils.Config;
-import warpplugin.main;
 
-import java.util.ArrayList;
-import java.io.File;
-
-public class setwarp extends Command {
-    public setwarp() {
+public class setwarp extends Command
+{
+    private final Config text, warps;
+    public setwarp(Config text, Config warps) {
         super("setwarp", "Creates or updates an existing warp", "Usage: /setwarp [name]");
-    }
 
-    public Position getPosition(Player player) {
-        double x = player.getPosition().getX();
-        double y = player.getPosition().getY();
-        double z = player.getPosition().getZ();
-
-        return new Position(x, y, z);
-    }
-
-    public ArrayList<String> createWarpArray(String[] warpList) {
-        ArrayList<String> warpArray = new ArrayList<>();
-
-        for (int i = 0; i < warpList.length; i++) {
-            String warp = warpList[i];
-
-            if (warp.startsWith(" ")) {
-                warp = warp.substring(1);
-            }
-
-            warpArray.add(warp);
-        }
-
-        return warpArray;
-    }
-
-    public void saveData(Config cfg, Position position, String warpName, String worldName) {
-        cfg.set(warpName + "_x", position.getX());
-        cfg.set(warpName + "_y", position.getY());
-        cfg.set(warpName + "_z", position.getZ());
-        cfg.set(warpName + "_world", worldName);
-
-        cfg.save();
+        this.text = text;
+        this.warps = warps;
     }
 
     @Override
-    public boolean execute(CommandSender sender, String command, String[] args) {
-        Config cfg = new Config(new File(main.getInstance().getDataFolder(), "config.yml"));
-        cfg.reload();
-
-        if (sender.isPlayer()) {
-            Player player = (Player) sender;
-
-            if (!player.hasPermission("command.setwarp")) {
-                player.sendMessage("§cUnknown command: " + command + ". Please check that the command exists and that you have permission to use it.");
-                return false;
-            }
-
-            if (args.length == 1) {
-                Position pos = getPosition(player);
-
-                String warpName = args[0].toLowerCase();
-                String worldName = player.getLevel().getName();
-
-                boolean initWarp = false;
-
-                String[] warpList = cfg.getString("warp_list").replace("[", "").replace("]", "").split(",");
-                ArrayList<String> warpArray = createWarpArray(warpList);
-
-                if (!cfg.exists("warp_list")) {
-                    cfg.set("warp_list", warpName);
-                    initWarp = true;
-                }
-
-                else if (!warpArray.contains(warpName)) {
-                    warpArray.add(warpName);
-                    cfg.set("warp_list", warpArray);
-
-                    initWarp = true;
-                }
-
-                if (!initWarp) sender.sendMessage("§aSet warp: §2" + args[0] + " §aat: §2" + pos.getFloorX() + ", " + pos.getFloorY() + ", " + pos.getFloorZ());
-                else sender.sendMessage("§aAdded warp: §2" + args[0] + " §aat: §2" + pos.getFloorX() + ", " + pos.getFloorY() + ", " + pos.getFloorZ());
-
-                saveData(cfg, pos, warpName, worldName);
-            }
-
-            else sender.sendMessage("§c" + usageMessage);
+    public boolean execute(CommandSender sender, String command, String[] args)
+    {
+        // Check if the command sender is a player
+        if (!sender.isPlayer()) {
+            sender.sendMessage(text.getString("console"));
+            return false;
         }
 
-        else sender.sendMessage("§cYou can only perform this command as a player");
+        // Check if the player has permission to execute this command
+        Player player = (Player) sender;
+        if (!player.hasPermission("command.setwarp")) {
+            sender.sendMessage(text.getString("no-perms"));
+            return false;
+        }
+
+        // Check if there are too many or not enough arguments
+        if (args.length != 1) {
+            sender.sendMessage(usageMessage);
+            return false;
+        }
+
+        // Get the exact warp name (key) in a case-insensitive manner (if it exists)
+        String warpName = args[0];
+        for (String key : warps.getKeys(false)) {
+            if (key.equalsIgnoreCase(args[0]))
+            {
+                warpName = key;
+                break;
+            }
+        }
+
+        // Extract required warp data from the player
+        Position pos = player.getPosition();
+        String worldName = player.getLevel().getName();
+
+        // Check if the warp already exists (case-insensitive)
+        if (warps.exists(warpName))
+        {
+            // If the inputted warp name does not match the exact key name
+            if (!warpName.equals(args[0]))
+            {
+                // Remove the old warp
+                warps.remove(warpName);
+                // Update the warp name
+                warpName = args[0];
+            }
+            sender.sendMessage(text.getString("update-warp")
+                    .replace("{warp}", warpName)
+                    .replace("{x}", String.format("%.1f", pos.x))
+                    .replace("{y}", String.format("%.1f", pos.y))
+                    .replace("{z}", String.format("%.1f", pos.z)));
+        }
+
+        else
+        {
+            sender.sendMessage(text.getString("create-warp")
+                    .replace("{warp}", warpName)
+                    .replace("{x}", String.format("%.1f", pos.x))
+                    .replace("{y}", String.format("%.1f", pos.y))
+                    .replace("{z}", String.format("%.1f", pos.z)));
+        }
+
+        // Create or update the warp data
+        warps.set(warpName + ".world", worldName);
+        warps.set(warpName + ".x", pos.x);
+        warps.set(warpName + ".y", pos.y);
+        warps.set(warpName + ".z", pos.z);
+        warps.save();
+
         return false;
     }
 }
