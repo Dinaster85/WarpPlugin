@@ -37,7 +37,7 @@ public class warps extends Command
         }
 
         // Concatenate warp names with commas
-        String warpNames = String.join(text.getString("warp-list-delimeter"), warpKeys);
+        String warpNames = String.join(text.getString("warp-list-delimiter"), warpKeys);
         sender.sendMessage(text.getString("warp-list").replace("{warps}", warpNames));
         return false;
     }
