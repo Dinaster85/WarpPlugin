@@ -9,7 +9,7 @@ public class delwarp extends Command
 {
     private final Config text, warps;
     public delwarp(Config text, Config warps) {
-        super("delwarp", "Removed a specified warp", "Usage: /delwarp [name]");
+        super("delwarp", "Removes a specified warp", "Usage: /delwarp [name]");
 
         this.text = text;
         this.warps = warps;
