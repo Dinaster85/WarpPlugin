@@ -1,6 +1,6 @@
 teleport: "§o§7Teleported to {warp}"
 warp-list: "§aAvailable warps: §2{warps}"
-warp-list-delimeter: ", "
+warp-list-delimiter: ", "
 remove-warp: "§aRemoved warp: §2{warp}"
 create-warp: "§aCreated warp: §2{warp} §aat: §2{x}, {y}, {z}"
 update-warp: "§aSet warp: §2{warp} §aat: §2{x}, {y}, {z}"
