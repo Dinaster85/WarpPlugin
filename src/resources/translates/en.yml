@@ -1,0 +1,23 @@
+#--------------------
+translate-by: "JavaJar"
+#--------------------
+
+teleport: "§o§7Teleported to %1"
+warp-list: "§aAvailable warps: §2%1"
+warp-list-delimiter: ", "
+remove-warp: "§aRemoved warp: §2%1"
+create-warp: "§aCreated warp: §2%1 §aat: §2%2, %3, %4"
+update-warp: "§aSet warp: §2%1 §aat: §2%2, %3, %4"
+unknown-warp: "§cUnknown warp: %1"
+no-warps: "§cNo warps available"
+no-perms: "§cYou do not have permission to use this command"
+console: "§cYou can only perform this command as a player"
+
+command-delwarp-usage: "Usage: /delwarp [name]"
+command-delwarp-description: "Remove a specified warp"
+command-setwarp-usage: "Usage: /setwarp [name]"
+command-setwarp-description: "Creates or updates an existing warp"
+command-warp-usage: "Usage: /warp [name]"
+command-warp-description: "Teleport to a warp"
+command-warps-usage: "Usage: /warps"
+command-warps-description: "Displays a list of available warps"

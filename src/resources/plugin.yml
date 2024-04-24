@@ -1,0 +1,20 @@
+name: "${pom.artifactId}"
+main: javajarr.warps.Main
+version: "${pom.version}"
+api: 1.0.0
+author: JavaJar
+
+permissions:
+  warps.command:
+    default: true
+    children:
+      delwarp:
+        default: op
+      setwarp:
+        default: op
+      warp:
+        default: true
+      warps:
+        default: true
+        
+

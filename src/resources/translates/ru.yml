@@ -1,0 +1,23 @@
+#--------------------
+translate-by: "Dinaster85"
+#--------------------
+
+teleport: "§o§7Телепортация к %1"
+warp-list: "§aСписок варпов: §2%1"
+warp-list-delimiter: ", "
+remove-warp: "§aУдалён варп: §2%1"
+create-warp: "§aСоздан варп: §2%1 §aна координатах: §2%2, %3, %4"
+update-warp: "§aУстановлен варп: §2%1 §aна координатах: §2%2, %3, %4"
+unknown-warp: "§cНеизвестный варп: %1"
+no-warps: "§cНет доступных варпов"
+no-perms: "§cУ тебя нет разрешения использовать эту комманду"
+console: "§cЭту команду может использовать только игрок"
+
+command-delwarp-usage: "Использование: /delwarp [имя]"
+command-delwarp-description: "Варп удалён"
+command-setwarp-usage: "Использование: /setwarp [имя]"
+command-setwarp-description: "Создать или обновить существующий варп"
+command-warp-usage: "Использование: /warp [имя]"
+command-warp-description: "Телепортироваться на варп"
+command-warps-usage: "Использование: /warps"
+command-warps-description: "Отобразить список варпов"
